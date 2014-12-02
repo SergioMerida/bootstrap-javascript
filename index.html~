@@ -52,6 +52,7 @@
    	 				<li class="list-group-item"><input type="checkbox" name="foo" value="bar" class="pull-right">/music</li>
     					<li class="list-group-item"><input type="checkbox" name="people" value="bar" class="pull-right">/people</li>
     					<li class="list-group-item"><input type="checkbox" name="book" value="bar" class="pull-right">/book</li>
+					<li class="list-group-item"><button type="button" class="btn btn-default">Filter</button><button type="reset" class="btn btn-default clear pull-right">Reset!</button></li>
   				</ul>
 			</div><!--panel-->
                 </div><!--Col-md-4-->

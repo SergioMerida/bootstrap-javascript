@@ -12,15 +12,14 @@ $(document).ready(function(){
                 var obj = {text: result['name']}.text;
                 var insertar = "<tr>" + "<td>" + obj + "</td>" + "</tr>";
                 $('.mostrar').append(insertar);
-            });/*--each--*/
-        }); /*--getjson--*/
-    }); /*--click--*/
+            });/*--------------------each----------------------*/
+        }); /*---------getjson-----------*/
+    }); /*---------click button-----------*/
 	
     $(".clear").click(function() {
         $(".mostrar").empty();
-    }); /*--Clear--*/
-}); /*--document--*/
-
+    }); /*-----------Clear function--------------*/
+}); /*------------document. ready-------------*/
 
 /*----------------------First Filter-----------------------------*/
    $(document).ready(function(){
@@ -44,7 +43,7 @@ $(document).ready(function(){
             }
 
             else if($(this).prop("checked") == false){
-                $(".mostrar").empty();
+                alert("Checkbox is unchecked.");
             }
         });
     });
@@ -71,7 +70,7 @@ $(document).ready(function(){
             }
 
             else if($(this).prop("checked") == false){
-                $(".mostrar").empty();
+                alert("Checkbox is unchecked.");
             }
         });
     });
@@ -98,7 +97,7 @@ $(document).ready(function(){
             }
 
             else if($(this).prop("checked") == false){
-                $(".mostrar").empty();
+                alert("Checkbox is unchecked.");
             }
         });
     });
