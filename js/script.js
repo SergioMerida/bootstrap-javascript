@@ -1,25 +1,16 @@
-busqueda = [];
-url = [];
-filters = [];
-
+var busqueda = "";
 $(document).ready(function(){
+    $('.d').hide();
+    $('.c').hide();
     $('#butt').click(function(){
-	var b = $('input:text[name=nombre]').val();
-	var filter1 = '(all type:/music/artist)';
-	var filter2 = '(all type:/people/person)';
-	var filter3 = '(all type:/book/)';
- 	var service_url = 'https://www.googleapis.com/freebase/v1/search';
-	var params = {
-        	'query': b,
-        	'limit': 50,
-        	'indent': true
-    	};
-	busqueda.push(b);
-	url.push(service_url);
-	filters.push(filter1);
-	filters.push(filter2);
-	filters.push(filter3);
-	console.log(filters);
+    $(".search").empty();
+        busqueda = $('input:text[name=nombre]').val();
+        var service_url = 'https://www.googleapis.com/freebase/v1/search';
+        var params = {
+            'query': busqueda,
+            'limit': 50,
+            'indent': true
+    };
         $.getJSON(service_url + '?callback=?', params, function(response) {
             $.each(response.result, function(i, result) {
                 var obj = {text: result['name']}.text;
@@ -28,6 +19,7 @@ $(document).ready(function(){
                 $('.mostrar').append(insertar);
             });/*--each--*/
         }); /*--getjson--*/
+        $('.check').prop('checked', false);
     }); /*--click--*/
 	
     $(".clear").click(function() {
@@ -36,14 +28,17 @@ $(document).ready(function(){
 
 }); /*--document--*/
 
+
 /*------------------*/
 $(document).ready(function(){
 $('input[name="foo"]').click(function(){
+    $('.d').show();
+    $('.c').show();
 	$('.search').hide();
         if($(this).prop("checked") == true){
             var params = {
         	'query': busqueda[0],
-		'filter': filters[0],
+		    'filter': filters[0],
         	'limit': 5,
         	'indent': true
     		};
@@ -59,6 +54,8 @@ $('input[name="foo"]').click(function(){
         else if($(this).prop("checked") == false){
             $(".first").empty();
 	    $('.search').show();
+            $('.d').hide();
+            $('.c').hide();
         }
     });
 });
