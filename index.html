@@ -18,6 +18,7 @@
         <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
         <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
         <link href="css/styles.css" rel="stylesheet">
+
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -72,15 +73,17 @@
                     </form>
 
                     <br>
-		<br>
+		            <br>
                     <div class="info">
                         <div class="panel panel-default">
                             <div class="panel-heading">Search for</div>
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="table table-striped ui-responsive">
                                     <thead>
                                     <tr>
-                                        <th>The coincidences of your search are</th>
+                                        <th data-priority="1">#</th>
+                                        <th data-priority="persist">Name</th>
+                                        <th data-priority="2">Notable</th>
                                     </tr>
                                     </thead>
                                     <tbody class="mostrar">
@@ -93,6 +96,15 @@
                 </div><!--Col-md-7-->
             </div><!--Row-->
         </div><!--container-->
+
+        <br>
+        <br>
+        <div class="navbar navbar-inverse navbar-fixed-bottom">
+            <div class="container">
+                <p class="navbar-text pull-left">Site Built By: Sergio Merida</p>
+                <a href="https://github.com/SergioMerida" target="blank" class="navbar-btn btn-info btn pull-right">Look my Github</a>
+            </div>
+        </div>
 
 
     <!--Javascript-->
