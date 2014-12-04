@@ -1,119 +1,64 @@
-busqueda = [];
-url = [];
-filters = [];
-
-$(document).ready(function(){
-    $('#butt').click(function(){
-	var b = $('input:text[name=nombre]').val();
-	var filter1 = '(all type:/music/artist)';
-	var filter2 = '(all type:/people/person)';
-	var filter3 = '(all type:/book/)';
- 	var service_url = 'https://www.googleapis.com/freebase/v1/search';
+var busqueda = "";
+$('.d').hide();
+$('.c').hide();
+$("#butt").click(function( event ) {
+	$(".mostrar").empty();
+	busqueda = $("#nombre").val();
+	$("#nombre").val("");
+	var service_url = 'https://www.googleapis.com/freebase/v1/search';
 	var params = {
-        	'query': b,
-        	'limit': 50,
-        	'indent': true
-    	};
-	busqueda.push(b);
-	url.push(service_url);
-	filters.push(filter1);
-	filters.push(filter2);
-	filters.push(filter3);
-	console.log(filters);
-        $.getJSON(service_url + '?callback=?', params, function(response) {
-            $.each(response.result, function(i, result) {
-                var obj = {text: result['name']}.text;
-                var notable = {text: result['notable']['name']}.text;                
-		var insertar = "<tr class='search'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
-                $('.mostrar').append(insertar);
-            });/*--each--*/
-        }); /*--getjson--*/
-    }); /*--click--*/
-	
-    $(".clear").click(function() {
-        $(".search").empty();
-    }); /*--Clear--*/
+		'query': busqueda,
+		'limit': 10,
+		'indent': true
+	};
 
-}); /*--document--*/
-
-/*------------------*/
-$(document).ready(function(){
-$('input[name="foo"]').click(function(){
-	$('.search').hide();
-        if($(this).prop("checked") == true){
-            var params = {
-        	'query': busqueda[0],
-		'filter': filters[0],
-        	'limit': 5,
-        	'indent': true
-    		};
-	    $.getJSON(url[0] + '?callback=?', params, function(response) {
-            $.each(response.result, function(i, result) {
-                var obj = {text: result['name']}.text;
-                var notable = {text: result['notable']['name']}.text;
-                var insertar = "<tr class='first'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
-                $('.mostrar').append(insertar);
-            });/*--each--*/
-        }); /*--getjson--*/
-        }
-        else if($(this).prop("checked") == false){
-            $(".first").empty();
-	    $('.search').show();
-        }
-    });
+	$.getJSON(service_url + '?callback=?', params, function(response) {
+		var numero = 0;
+		$.each(response.result, function(i, result) {
+			var obj = {text: result['name']}.text;
+			var notable = {text: result['notable']['name']}.text;
+			var insertar = "<tr class='search'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
+			$('.mostrar').append(insertar);
+		});
+	});
 });
 
-/*------------------------Second filter---------------------------------*/
-$(document).ready(function(){
-        $('input[name="people"]').click(function(){
-            if($(this).prop("checked") == true){
-        	var params = {
-            	'query': busqueda[0],
-            	'filter': '(all type:/people/person)',
-            	'limit': 5,
-            	'indent': true
-        	};
-        $.getJSON(url[0] + '?callback=?', params, function(response) {
-            $.each(response.result, function(i, result) {
-                var obj = {text: result['name']}.text;
-                var notable = {text: result['notable']['name']}.text;
-                var insertar = "<tr class='second'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
-                $('.mostrar').append(insertar);
-			});/*--each--*/
-        	}); /*--getjson--*/
-            }
+$(".clear").click(function() {
+$(".search").empty();
+}); /*--Clear--*/
 
-            else if($(this).prop("checked") == false){
-                $(".second").empty();
-            }
-        });
-    });
+$('input[name="filtros"]').change(function(){
+	$(".mostrar").empty();
+	var checkedEnable = [];
+	var filterUrls = [" type:/music/", " type:/people/", " type:/book/", " type:/music/artist", " type:/music/album"];
+	var filterString = "";
+	$("input[name=filtros]:checked").each(function(){
+		$('.d').show();
+		$('.c').show();
+		checkedEnable.push(this.value);
+	});
+	
+	for (var i=0;i<checkedEnable.length;i++){
+		filterString = filterString + filterUrls[checkedEnable[i]];
+	};
+	
+	filterString = "(all"+filterString+")";
+	var service_url = 'https://www.googleapis.com/freebase/v1/search';
+	var params = {
+		'query': busqueda,
+		'filter': filterString,
+		'limit': 10,
+		'indent': true
+	};
+	$.getJSON(service_url + '?callback=?', params, function(response) {
+		var numero = 0;
+		$.each(response.result, function(i, result) {
+			var obj = {text: result['name']}.text;
+			var notable = {text: result['notable']['name']}.text;
+			var insertar = "<tr class='search'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
+			$('.mostrar').append(insertar);
+		});
+	});
+});
 
-/*------------------------Third filter---------------------------------*/
-$(document).ready(function(){
-        $('input[name="book"]').click(function(){
-            if($(this).prop("checked") == true){
-                var b = $('input:text[name=nombre]').val();
-        	var service_url = 'https://www.googleapis.com/freebase/v1/search';
-        	var params = {
-            	'query': b,
-            	'filter': '(all type:/book/)',
-            	'limit': 50,
-            	'indent': true
-        	};
-        $.getJSON(service_url + '?callback=?', params, function(response) {
-            $.each(response.result, function(i, result) {
-                var obj = {text: result['name']}.text;
-                var notable = {text: result['notable']['name']}.text;
-                var insertar = "<tr class='third'>"+ "<td>"+ (i+1) +"</td>" + "<td>" + obj + "</td>"+ "<td>"+notable+"</td>" + "</tr>";
-                $('.mostrar').append(insertar);
-			});/*--each--*/
-        	}); /*--getjson--*/
-            }
-
-            else if($(this).prop("checked") == false){
-                $(".third").empty();
-            }
-        });
-    });
 
